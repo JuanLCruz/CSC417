@@ -160,6 +160,21 @@ need to fix something inside `data0`.
       (and (parent ?z ?x)
            (parent ?z ?y))))
 
+(defun known (x binds &optional index)
+    (if (null index) (setq index 0))
+    (if (>= index (list-length binds)) 
+        x
+        (let ((k (nth index binds)))
+            (setq k (list k))
+            (let ((y (caar k)))
+            (let ((z (cdar k)))
+            (if (equalp (format nil "~{~A~}" (list x)) (format nil "~{~A~}" (list y)))
+                (progn
+                    (known z binds))
+                (progn 
+                    (incf index)
+                    (known x binds index))))))))
+
 
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun test1 ()
